@@ -31,6 +31,10 @@ const server = app.listen(process.env.PORT, () => {
   console.log(`Server is connected at port ${process.env.PORT}`);
 });
 
+app.get("/", (req, res) => {
+  res.status(200).send("Hello this is webhook setup");
+})
+
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
