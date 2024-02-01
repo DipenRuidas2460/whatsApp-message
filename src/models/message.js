@@ -4,15 +4,16 @@ const sequelize = require("../config/dbConfig");
 const Messages = sequelize.define(
   "Messages",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     from: {
       type: DataTypes.STRING,
     },
-    webhook_msg_id: {
+    webhook_recived_msg_id: {
+      type: DataTypes.STRING,
+    },
+    send_msg_id: {
+      type: DataTypes.STRING,
+    },
+    reply_msg_id: {
       type: DataTypes.STRING,
     },
     timestamp: {
@@ -43,9 +44,6 @@ const Messages = sequelize.define(
       type: DataTypes.JSON,
     },
     order: {
-        type: DataTypes.JSON,
-    },
-    errors: {
       type: DataTypes.JSON,
     },
   },

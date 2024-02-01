@@ -4,17 +4,14 @@ const sequelize = require("../config/dbConfig");
 const Contacts = sequelize.define(
   "Contacts",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     profile: {
       type: DataTypes.JSON,
     },
+    input: {
+      type: DataTypes.STRING,
+    },
     wa_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.STRING,
     },
   },
   {
