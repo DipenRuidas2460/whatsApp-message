@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 require("dotenv").config();
 const Contacts = require("../models/contacts");
 const Messages = require("../models/message");
+const path = require("path");
 
 const Token = process.env.TOKEN;
 const mytoken = process.env.MYTOKEN;
@@ -78,14 +79,9 @@ const getMessageWebhook = (req, res) => {
   }
 };
 
-const fetchAllReceiveMessage = asyncHandler(async (req, res) => {
+const fetchAllMessages = asyncHandler(async (req, res) => {
   try {
-    const webhookMessageId = req.params.msgId;
-    const allMessages = await Messages.findAll({
-      where: {
-        webhook_recived_msg_id: webhookMessageId,
-      },
-    });
+    const allMessages = await Messages.findAll({});
     return res.json(allMessages);
   } catch (err) {
     console.log(err);
@@ -190,6 +186,8 @@ const fetchMediaUrl = async (req, res) => {
         Authorization: `Bearer ${Token}`,
       },
     }).then(async ({ data }) => {
+      // return res.json({data})
+
       await axios({
         method: "GET",
         url: `https://graph.facebook.com/v19.0/${data.url}`,
@@ -197,21 +195,146 @@ const fetchMediaUrl = async (req, res) => {
           Authorization: `Bearer ${Token}`,
         },
       }).then(({ data }) => {
-        return res.status(200).send({status:"true", img:data.id})
+        return res.status(200).send({ status: "true", img: data.id });
       });
     });
-
   } catch (err) {
     console.log(err);
     return res.status(500).send({ error: err, msg: "Internal Server Error!" });
   }
 };
 
+const createVideoUrl = async (req, res) => {
+  try {
+    const updatedVideo = req.files.video;
+    const randomInRange = Math.floor(Math.random() * 10) + 1;
+    const videoPath = path.join(
+      __dirname,
+      "../uploads/video/",
+      `${randomInRange}_video.mp4`
+    );
+    await updatedVideo.mv(videoPath);
+    return res.json({
+      url: `${process.env.BCK_URL}/assets/video/${randomInRange}_video.mp4`,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ error: err, msg: "Internal Server Error!" });
+  }
+};
+
+const createAudioUrl = async (req, res) => {
+  try {
+    const updatedAudio = req.files.audio;
+    const randomInRange = Math.floor(Math.random() * 10) + 1;
+    const audioPath = path.join(
+      __dirname,
+      "../uploads/audio/",
+      `${randomInRange}_audio.mp3`
+    );
+    await updatedAudio.mv(audioPath);
+    return res.json({
+      url: `${process.env.BCK_URL}/assets/audio/${randomInRange}_audio.mp3`,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ error: err, msg: "Internal Server Error!" });
+  }
+};
+
+const createDocumentUrl = async (req, res) => {
+  try {
+    const updatedDocument = req.files.document;
+    const randomInRange = Math.floor(Math.random() * 10) + 1;
+    const documentPath = path.join(
+      __dirname,
+      "../uploads/document/",
+      `${randomInRange}_document.pdf`
+    );
+    await updatedDocument.mv(documentPath);
+    return res.json({
+      url: `${process.env.BCK_URL}/assets/document/${randomInRange}_document.pdf`,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send({ error: err, msg: "Internal Server Error!" });
+  }
+};
+
+const sendImgMedia = async (req, res) => {
+  try {
+    const { phon_no_id, messaging_product, recipient_type, to, type, imageId } =
+      req.body;
+
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        image: {
+          id: imageId,
+        },
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: err.message, msg: "Internal server error!" });
+  }
+};
+
+const sendStickerMedia = async (req, res) => {
+  try {
+    const { phon_no_id, messaging_product, recipient_type, to, type, stickerId } =
+      req.body;
+
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        sticker: {
+          id: stickerId,
+        },
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ error: err.message, msg: "Internal server error!" });
+  }
+};
+
 module.exports = {
   getMessageWebhook,
   receiveMessageWebhook,
-  fetchAllReceiveMessage,
+  fetchAllMessages,
   sendMessage,
   sendReplyMessage,
-  fetchMediaUrl
+  fetchMediaUrl,
+  createVideoUrl,
+  createAudioUrl,
+  createDocumentUrl,
+  sendImgMedia,
+  sendStickerMedia
 };

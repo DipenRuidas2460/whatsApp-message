@@ -10,4 +10,22 @@ const getVideo = async (req, res) => {
   res.end();
 };
 
-module.exports = { getVideo };
+const getAudio = async (req, res) => {
+  const fileName = req.params.fileName;
+  const filePath = "../uploads/audio/" + fileName;
+  const profAudioPath = path.join(__dirname, filePath);
+  const fileAudio = await fs.readFileSync(profAudioPath);
+  res.write(fileAudio);
+  res.end();
+};
+
+const getDocument = async (req, res) => {
+  const fileName = req.params.fileName;
+  const filePath = "../uploads/document/" + fileName;
+  const profDocumentPath = path.join(__dirname, filePath);
+  const fileDocument = await fs.readFileSync(profDocumentPath);
+  res.write(fileDocument);
+  res.end();
+};
+
+module.exports = { getVideo, getAudio, getDocument };
