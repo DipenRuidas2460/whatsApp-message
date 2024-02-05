@@ -9,8 +9,19 @@ const {
   createVideoUrl,
   createAudioUrl,
   createDocumentUrl,
-  sendImgMedia,
-  sendStickerMedia,
+  sendStickerMediaByObjectId,
+  sendImgMediaByObjectId,
+  sendImgByUrl,
+  sendStickByUrl,
+  sendAudioByUrl,
+  sendVideoByUrl,
+  sendDocumentByUrl,
+  sendMessageWithPreviewUrl,
+  sendReplyWithReactionMsg,
+  sendReplyToImgByImgId,
+  sendReplyToImgByUrl,
+  sendReplyToStickerById,
+  sendReplyToStickerByUrl,
 } = require("../controller.js/messageController");
 
 const { getVideo, getAudio, getDocument } = require("../helper/fileHelper");
@@ -34,6 +45,10 @@ router.post("/send-msg", sendMessage);
 
 router.post("/reply-send-message", sendReplyMessage);
 
+router.post("/send-message-preview-url", sendMessageWithPreviewUrl);
+
+router.post("/send-reply-with-reaction-msg", sendReplyWithReactionMsg);
+
 // ****** get files ************************************************
 
 router.get("/assets/video/:fileName", getVideo);
@@ -52,7 +67,19 @@ router.post("/create-document-url", createDocumentUrl);
 
 // ***** send photo and sticker *************************************
 
-router.post("/send-photo-whatsapp", sendImgMedia);
-router.post("/send-sticker-whatsapp", sendStickerMedia);
+router.post("/send-photo-whatsapp", sendImgMediaByObjectId);
+router.post("/send-photo-whatsapp-link", sendImgByUrl);
+router.post("/send-sticker-whatsapp", sendStickerMediaByObjectId);
+router.post("/send-sticker-whatsapp-link", sendStickByUrl);
+router.post("/send-reply-to-image-by-id", sendReplyToImgByImgId);
+router.post("/send-reply-to-image-by-url", sendReplyToImgByUrl);
+router.post("/send-reply-to-sticker-message-by-id", sendReplyToStickerById);
+router.post("/send-reply-to-sticker-message-by-url", sendReplyToStickerByUrl);
+
+// ***** send Audio Video and Document ******************************
+
+router.post("/send-audio-whatsapp-link", sendAudioByUrl);
+router.post("/send-video-whatsapp-link", sendVideoByUrl);
+router.post("/send-document-whatsapp-link", sendDocumentByUrl);
 
 module.exports = router;
