@@ -22,6 +22,15 @@ const {
   sendReplyToImgByUrl,
   sendReplyToStickerById,
   sendReplyToStickerByUrl,
+  sendReplyButton,
+  sendMessageByTemplate,
+  sendListMessage,
+  sendReplyToListMessage,
+  markMessageAsRead,
+  sendSingleProductMessage,
+  sendMultiProductMessage,
+  sendCatalogMessage,
+  sendCatalogTemplateMessage,
 } = require("../controller.js/messageController");
 
 const { getVideo, getAudio, getDocument } = require("../helper/fileHelper");
@@ -40,6 +49,14 @@ router.get("/fetchAllMsg", fetchAllMessages);
 // ******* send messages *******************************************
 
 router.post("/send-msg", sendMessage);
+router.post("/send-msg-template", sendMessageByTemplate);
+router.post("/send-msg-list", sendListMessage);
+router.post("/send-reply-to-msg-list", sendReplyToListMessage);
+router.put("/mark-message-as-read", markMessageAsRead);
+router.post("/send-single-product-msg", sendSingleProductMessage);
+router.post("/send-multiple-product-msg", sendMultiProductMessage);
+router.post("/send-catalog-msg", sendCatalogMessage);
+router.post("/send-catalog-template-msg", sendCatalogTemplateMessage);
 
 // ******* send reply message **************************************
 
@@ -48,6 +65,8 @@ router.post("/reply-send-message", sendReplyMessage);
 router.post("/send-message-preview-url", sendMessageWithPreviewUrl);
 
 router.post("/send-reply-with-reaction-msg", sendReplyWithReactionMsg);
+
+router.post("/send-reply-button", sendReplyButton);
 
 // ****** get files ************************************************
 

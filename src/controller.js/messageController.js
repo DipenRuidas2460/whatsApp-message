@@ -380,8 +380,8 @@ const sendReplyToImgByImgId = async (req, res) => {
         messaging_product: messaging_product,
         recipient_type: recipient_type,
         to: to,
-        context:{
-          message_id:message_id
+        context: {
+          message_id: message_id,
         },
         type: type,
         image: {
@@ -422,8 +422,8 @@ const sendReplyToImgByUrl = async (req, res) => {
         messaging_product: messaging_product,
         recipient_type: recipient_type,
         to: to,
-        context:{
-          message_id:message_id
+        context: {
+          message_id: message_id,
         },
         type: type,
         image: {
@@ -570,8 +570,8 @@ const sendReplyToStickerById = async (req, res) => {
         messaging_product: messaging_product,
         recipient_type: recipient_type,
         to: to,
-        context:{
-          message_id:message_id
+        context: {
+          message_id: message_id,
         },
         type: type,
         sticker: {
@@ -612,8 +612,8 @@ const sendReplyToStickerByUrl = async (req, res) => {
         messaging_product: messaging_product,
         recipient_type: recipient_type,
         to: to,
-        context:{
-          message_id:message_id
+        context: {
+          message_id: message_id,
         },
         type: type,
         sticker: {
@@ -752,6 +752,300 @@ const sendDocumentByUrl = async (req, res) => {
   }
 };
 
+const sendReplyButton = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      type,
+      interactive,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        interactive: interactive,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res
+      .status(500)
+      .send({ error: err.message, msg: "Internal server error!" });
+  }
+};
+
+const sendMessageByTemplate = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      type,
+      template,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        template: template,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
+const sendListMessage = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      type,
+      interactive,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        interactive: interactive,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
+const sendReplyToListMessage = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      message_id,
+      type,
+      interactive,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        context: {
+          message_id: message_id,
+        },
+        type: type,
+        interactive: interactive,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
+const markMessageAsRead = async (req, res) => {
+  try {
+    const { phon_no_id, messaging_product, status, message_id } = req.body;
+    await axios({
+      method: "PUT",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        status: status,
+        message_id: message_id,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
+const sendSingleProductMessage = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      type,
+      interactive,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        interactive: interactive,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
+const sendMultiProductMessage = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      type,
+      interactive,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        interactive: interactive,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
+const sendCatalogMessage = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      type,
+      interactive,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        interactive: interactive,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
+const sendCatalogTemplateMessage = async (req, res) => {
+  try {
+    const {
+      phon_no_id,
+      messaging_product,
+      recipient_type,
+      to,
+      type,
+      template,
+    } = req.body;
+    await axios({
+      method: "POST",
+      url: `https://graph.facebook.com/v19.0/${phon_no_id}/messages`,
+      data: {
+        messaging_product: messaging_product,
+        recipient_type: recipient_type,
+        to: to,
+        type: type,
+        template: template,
+      },
+      headers: {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      },
+    }).then(({ data }) => {
+      return res.json({ data });
+    });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ error: err, msg: "Internal server error!" });
+  }
+};
+
 module.exports = {
   getMessageWebhook,
   receiveMessageWebhook,
@@ -774,5 +1068,14 @@ module.exports = {
   sendReplyToImgByImgId,
   sendReplyToImgByUrl,
   sendReplyToStickerById,
-  sendReplyToStickerByUrl
+  sendReplyToStickerByUrl,
+  sendReplyButton,
+  sendMessageByTemplate,
+  sendListMessage,
+  sendReplyToListMessage,
+  markMessageAsRead,
+  sendSingleProductMessage,
+  sendMultiProductMessage,
+  sendCatalogMessage,
+  sendCatalogTemplateMessage,
 };
