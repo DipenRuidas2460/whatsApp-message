@@ -16,6 +16,9 @@ const Messages = sequelize.define(
     reply_msg_id: {
       type: DataTypes.STRING,
     },
+    mediaObjectId: {
+      type: DataTypes.STRING,
+    },
     timestamp: {
       type: DataTypes.STRING,
     },

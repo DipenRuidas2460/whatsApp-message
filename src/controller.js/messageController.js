@@ -21,9 +21,24 @@ const receiveMessageWebhook = asyncHandler(async (req, res) => {
         const contacts = body_param.entry[0].changes[0].value.contacts[0];
         const messages = body_param.entry[0].changes[0].value.messages[0];
 
+        let mediaId = null;
+
+        if (messages.type === "image") {
+          mediaId = messages.image.id;
+        } else if (messages.type === "sticker") {
+          mediaId = messages.sticker.id;
+        } else if (messages.type === "video") {
+          mediaId = messages.video.id;
+        } else if (messages.type === "audio") {
+          mediaId = messages.audio.id;
+        } else if (messages.type === "document") {
+          mediaId = messages.document.id;
+        }
+
         const messageSavedData = {
           from: messages.from,
           webhook_recived_msg_id: messages.id,
+          mediaObjectId: mediaId,
           timestamp: messages.timestamp,
           type: messages.type,
           text: messages.text,
@@ -250,8 +265,6 @@ const fetchMediaUrl = async (req, res) => {
         Authorization: `Bearer ${Token}`,
       },
     }).then(async ({ data }) => {
-      // return res.json({data})
-
       await axios({
         method: "GET",
         url: `https://graph.facebook.com/v19.0/${data.url}`,
